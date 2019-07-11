@@ -45,7 +45,7 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun removeLoadMoreView() {
         items.removeAt(items.size - 1)
-        notifyDataSetChanged()
+        notifyItemChanged(items.size - 1)
     }
 
     fun clearData(){
@@ -55,7 +55,7 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun addLoadMoreView() {
         items.add(items.size, MoviePopularResponse.Result())
-        notifyDataSetChanged()
+        notifyItemInserted(items.size)
     }
 
     fun isPositionFooter(position: Int): Boolean {
