@@ -1,6 +1,5 @@
 package anh.ptt.hometest.activities.main.viewmodel
 
-import android.util.Log
 import androidx.lifecycle.LifecycleObserver
 import androidx.lifecycle.MutableLiveData
 import anh.ptt.hometest.common.BaseViewModel
@@ -10,10 +9,7 @@ import io.reactivex.Observable
 import io.reactivex.disposables.CompositeDisposable
 import javax.inject.Inject
 
-class MainActivityViewModel @Inject constructor() : BaseViewModel(), LifecycleObserver {
-
-    @Inject
-    lateinit var dataRepository: DataRepository
+class MainActivityViewModel @Inject constructor(var dataRepository: DataRepository) : BaseViewModel(), LifecycleObserver {
 
     private val mDisposeBag = CompositeDisposable()
     val resultResponseSuccess = MutableLiveData<MoviePopularResponse>()
@@ -31,13 +27,11 @@ class MainActivityViewModel @Inject constructor() : BaseViewModel(), LifecycleOb
     }
 
     private fun onMovieResponseSuccess(response: MoviePopularResponse) {
-        if (response.results!!.isNotEmpty()) {
-            Log.d("xxxx", "${response.results.size}")
-        }
+        resultResponseSuccess.value = response
     }
 
     private fun onMovieResponseError(throwable: Throwable) {
-        Log.d("xxxx", "${throwable.printStackTrace()}")
+        resultResponseError.value = throwable.message
     }
 
     override fun onCleared() {

@@ -6,6 +6,7 @@ object Constants {
 
     class Net {
         companion object {
+            const val BASE_URL_IMAGE = "http://image.tmdb.org/t/p/w185"
             const val BASE_URL = "https://api.themoviedb.org/"
             const val NET_TIMEOUT = 100000L
         }

@@ -1,3 +1,4 @@
 <resources>
-    <string name="app_name">HomeTest</string>
+    <string name="app_name">Home Test</string>
+    <string name="now_playing_title">Now Playing</string>
 </resources>
