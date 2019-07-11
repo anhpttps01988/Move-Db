@@ -11,6 +11,10 @@ import anh.ptt.hometest.databinding.ItemMoviePopularBinding
 import anh.ptt.hometest.utils.Constants
 import com.bumptech.glide.Glide
 import com.bumptech.glide.load.engine.DiskCacheStrategy
+import android.view.animation.AnimationUtils.loadAnimation
+import android.view.animation.Animation
+import android.view.animation.AnimationUtils
+
 
 @Suppress("UNREACHABLE_CODE")
 class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
@@ -20,6 +24,7 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         const val LOAD_MORE_TYPE = 2
     }
 
+    private var lastPosition = -1
     private val items: MutableList<MoviePopularResponse.Result> = mutableListOf()
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): RecyclerView.ViewHolder {
@@ -48,7 +53,8 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         notifyDataSetChanged()
     }
 
-    fun clearData(){
+    fun clearData() {
+        lastPosition = - 1
         items.clear()
         notifyDataSetChanged()
     }
@@ -80,9 +86,16 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val mBinding: ItemMoviePopularBinding = DataBindingUtil.bind(itemView)!!
 
         fun bind(item: MoviePopularResponse.Result) {
-            Glide.with(mBinding.root.context).load(Constants.Net.BASE_URL_IMAGE+ item.posterPath).centerCrop().diskCacheStrategy(
-                DiskCacheStrategy.RESOURCE).placeholder(R.drawable.ic_no_image).into(mBinding.ivImageMovie)
+            Glide.with(mBinding.root.context).load(Constants.Net.BASE_URL_IMAGE + item.posterPath).centerCrop()
+                .diskCacheStrategy(
+                    DiskCacheStrategy.RESOURCE
+                ).placeholder(R.drawable.ic_no_image).into(mBinding.ivImageMovie)
             mBinding.tvVoteRate.text = "${item.voteAverage!!}"
+            if (adapterPosition > lastPosition) {
+                val animation = loadAnimation(mBinding.root.context, R.anim.item_animation)
+                mBinding.root.startAnimation(animation)
+                lastPosition = adapterPosition
+            }
             mBinding.executePendingBindings()
         }
     }
