@@ -45,7 +45,7 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
     fun removeLoadMoreView() {
         items.removeAt(items.size - 1)
-        notifyItemChanged(items.size - 1)
+        notifyDataSetChanged()
     }
 
     fun clearData(){

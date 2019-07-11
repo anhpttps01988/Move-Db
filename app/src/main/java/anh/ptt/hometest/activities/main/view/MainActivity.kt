@@ -89,22 +89,32 @@ class MainActivity : BaseActivity() {
 
     private fun setLoadMore() {
         page++
-        moviePopularAdapter.addLoadMoreView()
+        addLoadMore()
         mViewModel.getMoviePopularList(page)
+    }
+
+    private fun removeLoadMore() {
+        moviePopularAdapter.removeLoadMoreView()
+    }
+
+    private fun addLoadMore(){
+        mBinding.recyclerView.post {
+            moviePopularAdapter.addLoadMoreView()
+        }
     }
 
     private fun moviePopularResponse() {
         mViewModel.resultResponseSuccess.observe(this, Observer {
             mBinding.refreshView.isRefreshing = false
             isLoading = false
-            moviePopularAdapter.removeLoadMoreView()
+            removeLoadMore()
             if (it.results!!.isNotEmpty()) {
                 moviePopularAdapter.swapData(it.results.toMutableList())
             }
         })
         mViewModel.resultResponseError.observe(this, Observer {
             mBinding.refreshView.isRefreshing = false
-            moviePopularAdapter.removeLoadMoreView()
+            removeLoadMore()
         })
     }
 }
