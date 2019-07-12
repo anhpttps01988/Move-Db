@@ -1,11 +1,14 @@
 package anh.ptt.hometest.activities.main.view
 
 import android.os.Bundle
+import android.os.Handler
+import android.util.Log
 import androidx.databinding.DataBindingUtil
 import androidx.lifecycle.Observer
 import androidx.lifecycle.ViewModelProviders
 import androidx.recyclerview.widget.GridLayoutManager
 import androidx.recyclerview.widget.RecyclerView
+import androidx.recyclerview.widget.StaggeredGridLayoutManager
 import anh.ptt.hometest.R
 import anh.ptt.hometest.activities.main.adapter.MoviePopularAdapter
 import anh.ptt.hometest.activities.main.viewmodel.MainActivityViewModel
@@ -84,7 +87,8 @@ class MainActivity : BaseActivity() {
     private fun resetLoadMore() {
         moviePopularAdapter.clearData()
         page = 0
-        isLoading = false
+        isLoading = true
+        setLoadMore()
     }
 
     private fun setLoadMore() {
@@ -114,7 +118,9 @@ class MainActivity : BaseActivity() {
         })
         mViewModel.resultResponseError.observe(this, Observer {
             mBinding.refreshView.isRefreshing = false
-            removeLoadMore()
+            mBinding.recyclerView.postDelayed({
+                removeLoadMore()
+            },100)
         })
     }
 }
