@@ -44,8 +44,10 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun swapData(datas: MutableList<MoviePopularResponse.Result>) {
-        items.addAll(datas)
-        notifyDataSetChanged()
+        datas.forEachIndexed { index, result ->
+            items.add(result)
+            notifyItemInserted(index)
+        }
     }
 
     fun removeLoadMoreView() {
@@ -89,9 +91,7 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
 
         fun bind(item: MoviePopularResponse.Result) {
             Glide.with(mBinding.root.context).load(Constants.Net.BASE_URL_IMAGE + item.posterPath).centerCrop()
-                .diskCacheStrategy(
-                    DiskCacheStrategy.RESOURCE
-                ).placeholder(R.drawable.ic_no_image).into(mBinding.ivImageMovie)
+                .onlyRetrieveFromCache(true).placeholder(R.drawable.ic_no_image).into(mBinding.ivImageMovie)
             mBinding.tvVoteRate.text = "${item.voteAverage!!}"
             if (adapterPosition > lastPosition) {
                 val animation = loadAnimation(mBinding.root.context, R.anim.item_animation)

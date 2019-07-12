@@ -10,7 +10,7 @@ class MoviePopularResponse : Serializable {
 
     class Result {
         @SerializedName("id")
-        var id: Int? = null
+        var id: Int? = 0
         @SerializedName("title")
         var title: String? = null
         @SerializedName("vote_average")
