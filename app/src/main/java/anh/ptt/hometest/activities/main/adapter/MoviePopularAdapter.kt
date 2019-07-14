@@ -14,6 +14,7 @@ import com.bumptech.glide.load.engine.DiskCacheStrategy
 import android.view.animation.AnimationUtils.loadAnimation
 import android.view.animation.Animation
 import android.view.animation.AnimationUtils
+import androidx.recyclerview.widget.DiffUtil
 
 
 @Suppress("UNREACHABLE_CODE")
@@ -44,10 +45,10 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
     }
 
     fun swapData(datas: MutableList<MoviePopularResponse.Result>) {
-        datas.forEachIndexed { index, result ->
-            items.add(result)
-            notifyItemInserted(index)
-        }
+        val diffCallback = MoviePopularDiffUtil(items, datas)
+        val diffResult = DiffUtil.calculateDiff(diffCallback)
+        this.items.addAll(datas)
+        diffResult.dispatchUpdatesTo(this)
     }
 
     fun removeLoadMoreView() {
