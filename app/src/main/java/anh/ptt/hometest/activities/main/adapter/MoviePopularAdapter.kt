@@ -91,9 +91,12 @@ class MoviePopularAdapter : RecyclerView.Adapter<RecyclerView.ViewHolder>() {
         private val mBinding: ItemMoviePopularBinding = DataBindingUtil.bind(itemView)!!
 
         fun bind(item: MoviePopularResponse.Result) {
+
             Glide.with(mBinding.root.context).load(Constants.Net.BASE_URL_IMAGE + item.posterPath).centerCrop()
-                .onlyRetrieveFromCache(true).placeholder(R.drawable.ic_no_image).into(mBinding.ivImageMovie)
+                .placeholder(R.drawable.ic_no_image).into(mBinding.ivImageMovie)
+
             mBinding.tvVoteRate.text = "${item.voteAverage!!}"
+
             if (adapterPosition > lastPosition) {
                 val animation = loadAnimation(mBinding.root.context, R.anim.item_animation)
                 mBinding.root.startAnimation(animation)

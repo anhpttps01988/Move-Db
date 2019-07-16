@@ -49,6 +49,7 @@ class MainActivity : BaseActivity() {
     }
 
     private fun setupToolbarTitle() {
+        setSupportActionBar(mBinding.toolbar)
         supportActionBar?.title = getString(R.string.now_playing_title)
     }
 
